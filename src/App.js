@@ -1,24 +1,61 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import DetalleUsuario from './components/detalleUsuario';
+import { UsuarioProvider, UseUsuarios } from './context/usuario-context';
+import ModalAddUser from './components/addUser';
 
-function App() {
+///componente p[adre]
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <UsuarioProvider>
+      <App1></App1>
+    </UsuarioProvider>
+  )
+}
+
+///comnponete hijo
+
+function App1() {
+
+  const { usuarios } = UseUsuarios();
+  console.log(usuarios)
+  return (
+    <div className="container">
+      <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Launch demo modal
+      </button>
+      <div className="row">
+        <div className="col-5">
+          <ul class="list-group">
+            {usuarios.map(x => {
+              return (
+                <li key={x.cod} class="list-group-item">{x.nombre}</li>
+              )
+            })}
+          </ul>
+        </div>
+        <div className="col-7">
+          <DetalleUsuario></DetalleUsuario>
+        </div>
+      </div>
+      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <ModalAddUser></ModalAddUser>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
